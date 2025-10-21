@@ -3,7 +3,7 @@ extends Area3D
 @onready var audio_player = $Saber_Right/AudioStreamPlayer3D
 @onready var saber_on = true
 @onready var right_controller = $"../.."
-var can_press_button = true
+@onready var can_press_button = true
 
 
 func _ready():
@@ -57,8 +57,8 @@ func handle_a_button():
 	
 func saber_switch():
 	if saber_on:
-		visible = false
-		$CollisionShape3D.disabled = true
-	else:
 		visible = true
 		$CollisionShape3D.disabled = false
+	else:
+		visible = false
+		$CollisionShape3D.disabled = true

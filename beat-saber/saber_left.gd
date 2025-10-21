@@ -42,10 +42,10 @@ func handle_a_button():
 	
 func saber_switch():
 	if saber_on:
-		visible = false
-		$CollisionShapeLeft.disabled = true
-	else:
 		visible = true
 		$CollisionShapeLeft.disabled = false
+	else:
+		visible = false
+		$CollisionShapeLeft.disabled = true
 		
 		
