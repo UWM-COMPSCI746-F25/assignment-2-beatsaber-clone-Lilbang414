@@ -1,0 +1,106 @@
+[gd_scene load_steps=18 format=3 uid="uid://b5f1r7dfml5b0"]
+
+[ext_resource type="Script" uid="uid://c0dapofo8qy4x" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://xwnvu41ur26y" path="res://CubeSpawner.gd" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ckslixjbj7jr7" path="res://blue_cube.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://dwx3xthdktgmk" path="res://red_cube.tscn" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://ckfs78p1uycb3" path="res://saber_right.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://d3y85pot6c7m8" path="res://saber_left.gd" id="6_7mycd"]
+[ext_resource type="AudioStream" uid="uid://bkom31c82foxm" path="res://814954__imataco__ice-shatter-sfx.wav" id="6_272bh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ig7tw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ig7tw"]
+material = SubResource("ShaderMaterial_ig7tw")
+
+[sub_resource type="Skin" id="Skin_0xm2m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2yge"]
+albedo_color = Color(0, 0, 0.70980394, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1bvp3"]
+height = 0.6
+radius = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
+albedo_color = Color(0.63455623, 0, 0.19627315, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_h2yge"]
+material = SubResource("StandardMaterial3D_0xm2m")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lquwl"]
+height = 0.6
+radius = 0.03
+
+[node name="Main" type="XROrigin3D"]
+script = ExtResource("1_ig7tw")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+size = Vector3(10, 0.1, 20)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22053695, 1.0779178)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+current = true
+
+[node name="CubeSpawner" type="Node3D" parent="."]
+script = ExtResource("3_h2yge")
+blue_cube = ExtResource("4_1bvp3")
+red_cube = ExtResource("4_lquwl")
+
+[node name="Right_hand" type="XRController3D" parent="."]
+tracker = &"right_hand"
+
+[node name="Right_Hand_Visual" type="CSGBox3D" parent="Right_hand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.1, -0.1)
+size = Vector3(0.1, 0.1, 0.1)
+material = SubResource("StandardMaterial3D_1bvp3")
+
+[node name="Area3DRight" type="Area3D" parent="Right_hand/Right_Hand_Visual"]
+collision_mask = 4
+script = ExtResource("5_lquwl")
+
+[node name="Saber_Right" type="MeshInstance3D" parent="Right_hand/Right_Hand_Visual/Area3DRight"]
+transform = Transform3D(0.05, 0, 0, 0, 0.3, 0, 0, 0, 0.05, 0, 0.3, 0)
+layers = 8
+mesh = SubResource("CylinderMesh_ig7tw")
+skin = SubResource("Skin_0xm2m")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Right_hand/Right_Hand_Visual/Area3DRight/Saber_Right"]
+stream = ExtResource("6_272bh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Right_hand/Right_Hand_Visual/Area3DRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("CylinderShape3D_1bvp3")
+debug_color = Color(0.94273955, 1.0877549e-05, 0.60700643, 0.41960785)
+
+[node name="Left_hand" type="XRController3D" parent="."]
+tracker = &"left_hand"
+
+[node name="Left_Hand_Visual" type="CSGBox3D" parent="Left_hand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.1, -0.1)
+size = Vector3(0.1, 0.1, 0.1)
+material = SubResource("StandardMaterial3D_lquwl")
+
+[node name="Area3DLeft" type="Area3D" parent="Left_hand/Left_Hand_Visual"]
+script = ExtResource("6_7mycd")
+
+[node name="Left_Saber" type="MeshInstance3D" parent="Left_hand/Left_Hand_Visual/Area3DLeft"]
+transform = Transform3D(0.05, 0, 0, 0, 0.3, 0, 0, 0, 0.05, 0, 0.3, 0)
+mesh = SubResource("CylinderMesh_h2yge")
+skeleton = NodePath("../..")
+
+[node name="CollisionShapeLeft" type="CollisionShape3D" parent="Left_hand/Left_Hand_Visual/Area3DLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("CylinderShape3D_lquwl")

@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckslixjbj7jr7"]
+
+[ext_resource type="Script" uid="uid://doawq4n5tgqya" path="res://blue_cube.gd" id="1_rvmy8"]
+[ext_resource type="AudioStream" uid="uid://bkom31c82foxm" path="res://814954__imataco__ice-shatter-sfx.wav" id="2_hagss"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rvmy8"]
+albedo_color = Color(0, 0.07450981, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hagss"]
+material = SubResource("StandardMaterial3D_rvmy8")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y7crb"]
+
+[node name="BlueCube" type="Area3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_rvmy8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_hagss")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_y7crb")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_hagss")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
