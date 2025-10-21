@@ -1,5 +1,8 @@
 extends Area3D
 
+@onready var saber_on = true
+@onready var left_controller = $"../.."
+var can_press_button = true
 func _ready():
 	print("=== SABER COLLISION DEBUG ===")
 	print("Saber name: ", name)
@@ -23,4 +26,26 @@ func _ready():
 	print("=== SABER DEBUG COMPLETE ===")
 
 func _process(delta):
-	pass
+	if left_controller and left_controller.is_button_pressed("ax_button") and can_press_button:
+		print("x button pressed!")
+		handle_a_button()
+		can_press_button = false
+		await get_tree().create_timer(0.5).timeout
+		can_press_button = true
+
+func handle_a_button():
+		if saber_on:
+			saber_on = false
+		else:
+			saber_on = true
+		saber_switch()
+	
+func saber_switch():
+	if saber_on:
+		visible = false
+		$CollisionShapeLeft.disabled = true
+	else:
+		visible = true
+		$CollisionShapeLeft.disabled = false
+		
+		

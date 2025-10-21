@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b5f1r7dfml5b0"]
+[gd_scene load_steps=21 format=3 uid="uid://b5f1r7dfml5b0"]
 
 [ext_resource type="Script" uid="uid://c0dapofo8qy4x" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://xwnvu41ur26y" path="res://CubeSpawner.gd" id="3_h2yge"]
@@ -7,6 +7,13 @@
 [ext_resource type="Script" uid="uid://ckfs78p1uycb3" path="res://saber_right.gd" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://d3y85pot6c7m8" path="res://saber_left.gd" id="6_7mycd"]
 [ext_resource type="AudioStream" uid="uid://bkom31c82foxm" path="res://814954__imataco__ice-shatter-sfx.wav" id="6_272bh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+albedo_color = Color(0, 0.76816714, 0.23925737, 1)
+
+[sub_resource type="Environment" id="Environment_5vw27"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_kek77"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
 
@@ -42,11 +49,11 @@ script = ExtResource("1_ig7tw")
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 size = Vector3(10, 0.1, 20)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22053695, 1.0779178)
+material = SubResource("StandardMaterial3D_272bh")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5vw27")
+camera_attributes = SubResource("CameraAttributesPractical_kek77")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
@@ -104,3 +111,6 @@ skeleton = NodePath("../..")
 [node name="CollisionShapeLeft" type="CollisionShape3D" parent="Left_hand/Left_Hand_Visual/Area3DLeft"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 shape = SubResource("CylinderShape3D_lquwl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47488618, 5.6402993)

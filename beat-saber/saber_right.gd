@@ -1,6 +1,10 @@
 extends Area3D
 
 @onready var audio_player = $Saber_Right/AudioStreamPlayer3D
+@onready var saber_on = true
+@onready var right_controller = $"../.."
+var can_press_button = true
+
 
 func _ready():
 	print("=== SABER COLLISION DEBUG ===")
@@ -37,4 +41,24 @@ func play_hit_sound():
 		audio_player.play()
 
 func _process(delta):
-	pass
+	if right_controller and right_controller.is_button_pressed("ax_button") and can_press_button:
+		print("x button pressed!")
+		handle_a_button()
+		can_press_button = false
+		await get_tree().create_timer(0.5).timeout
+		can_press_button = true
+
+func handle_a_button():
+		if saber_on:
+			saber_on = false
+		else:
+			saber_on = true
+		saber_switch()
+	
+func saber_switch():
+	if saber_on:
+		visible = false
+		$CollisionShape3D.disabled = true
+	else:
+		visible = true
+		$CollisionShape3D.disabled = false
